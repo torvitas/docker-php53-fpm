@@ -11,8 +11,7 @@ install:
 	sudo cp -r systemd/docker-php53-fpm.service.d $(SYSTEMDSERVICEFOLDER)
 	sudo sed -i s/$(DOCKERNAMESPACEPLACEHOLDER)/$(DOCKERNAMESPACE)/g $(SYSTEMDSERVICEFOLDER)$(NAMESPACE)-php53-fpm.service
 	sudo sed -i s/$(NAMESPACEPLACEHOLDER)/$(NAMESPACE)/g $(SYSTEMDSERVICEFOLDER)$(NAMESPACE)-php53-fpm.service
-	sudo sed -i s/$(NAMESPACEPLACEHOLDER)/$(NAMESPACE)/g $(SYSTEMDSERVICEFOLDER)$(NAMESPACE)-php53-fpm.service.d/EnvironmentFile
-	sudo sed -i s/--link\ $(NAMESPACE)-php53-fpm:fpm53\ //g $(SYSTEMDSERVICEFOLDER)$(NAMESPACE)-nginx.service.d/EnvironmentFile
+	cd $(SYSTEMDSERVICEFOLDER)$(NAMESPACE)-php53-fpm.service.d/ && sudo ln -s ../$(SYSTEMDSERVICEFOLDER)$(NAMESPACE)-php-fpm.service.d/EnvironmentFile
 	sudo sed -i s/LINKSTO=/LINKSTO=--link\ $(NAMESPACE)-php53-fpm:fpm53\ /g $(SYSTEMDSERVICEFOLDER)$(NAMESPACE)-nginx.service.d/EnvironmentFile
 	sudo systemctl enable $(NAMESPACE)-php53-fpm.service
 
